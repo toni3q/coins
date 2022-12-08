@@ -4,6 +4,7 @@
 #include<time.h>
 #include<stdbool.h>
 int main(){ system("TITLE C-Coins");
+            system("color 9");
 
     // TAKING LAST VALUES (SAVED) //
 
@@ -29,6 +30,13 @@ int main(){ system("TITLE C-Coins");
     fclose(fPointer);    
     //printf("\ncoinsValue: %f", coinsValue);
 
+    //taking your last bank details.
+    float bankBalance;
+    fPointer = fopen("bank.txt", "r");
+    fscanf(fPointer, "%f", &bankBalance);
+    fclose(fPointer);
+
+    float transfer;
 
     float randomValueChanger = 0;
     float randomValueMultiplier = 0;
@@ -43,7 +51,7 @@ int main(){ system("TITLE C-Coins");
 
 
 //start
-char option, exit, shop;
+char option, exit, shop, bank, atm;
 do{
     do{
 
@@ -59,20 +67,67 @@ do{
         printf("\n- The value of the C-Coins changes by the supply and demand.");
         printf("\n- Each transaction between you and the platform is charged with 0.00$ of taxes.");
         printf("\n- You can basically do it from every country in the planet.");
+        printf("\n\n[Q] Quit");
 
         //user choise.
         option = getch();
 
-    }while(option != 'E' && option != 'e' && option != 'S' && option !='s');
+    }while(option != 'E' && option != 'e' && option != 'S' && option !='s' && option !='Q' && option !='q');
 
 
     // BANKING SYSTEM //
 
     if(option == 'E' || option == 'e'){
-        system("cls");
-        printf("[Wallet]");
-        printf("\nBalance: %f$", wallet);
-        printf("\nC-Coins: %f (%f$)", coins, coinsValue*coins);
+        do{
+            system("cls");
+            printf("[Wallet]");
+            printf("\nAvaible: $%f", wallet);
+            printf("\nC-Coins: %f ($%f)", coins, coinsValue*coins);
+
+            printf("\n\n[B] Bank Account");
+            printf("\n\n[X] (/) Deny");
+            bank = getch();
+        }while(bank != 'B' && bank != 'b' && bank != 'X' && bank != 'x');
+
+        if(bank == 'B' || bank == 'b'){
+            do{
+                system("cls");
+                printf("[Bank Details]");
+                printf("\nBalance: $%f\n", bankBalance);
+                printf("\n[D] (+) Deposit");
+                printf("\n[W] (-) Withdraw");
+                printf("\n\n[X] (/) Deny");
+                atm = getch();
+            }while(atm != 'D' && atm != 'd' && atm != 'W' && atm != 'w' && atm != 'X' && atm != 'x');
+
+            if(atm == 'D' || atm == 'd'){
+                printf("\n\nDeposit Amount: $");
+                scanf("%f", &transfer);
+
+                // TAXES //
+                float taxes;
+                taxes = transfer * 0.0025;
+                printf("Taxes: $%f", taxes);
+
+                wallet = wallet - transfer;
+                bankBalance = bankBalance + transfer;
+                bankBalance = bankBalance - taxes;
+            }
+
+            if(atm == 'W' || atm == 'w'){
+                printf("\n\nWithdraw Amount: $");
+                scanf("%f", &transfer);
+
+                // TAXES //
+                float taxes;
+                taxes = transfer * 0.0025;
+                printf("Taxes: $%f", taxes);
+
+                wallet = wallet + transfer;
+                bankBalance = bankBalance - transfer;
+                bankBalance = bankBalance - taxes;
+            }
+        }
     }
 
 
@@ -90,7 +145,6 @@ do{
             printf("[Shop]");
             printf("\n[B] (+) Buy");
             printf("\n[S] (-) Sell");
-            printf("\n\n[E] (/) Deny");
 
             //C-Coins value system.
                 srand(time(0));
@@ -107,16 +161,18 @@ do{
                 //final step to get a pseudo-random variation on the coin value.
                 valueDecrease = randomValueDecreaseMultiplier * randomValueDecrease;
                 //adding the value we got previously.
-                coinsValue = coinsValue + (valueAdd * 1.020) - (valueDecrease * 0.900);
+                coinsValue = coinsValue + (valueAdd * 1.025) - (valueDecrease * 0.875);
 
             //printing current C-Coins value.
             sleep(1);
             printf("\n\n[R] Refresh");
             printf("\nC-Coins Live Value: %f$", coinsValue);
             printf("\nLast Value Change: %f$", valueAdd-valueDecrease);
+
+            printf("\n\n[X] (/) Deny");
             shop = getch();
 
-        }while(shop != 'B' && shop != 'b' && shop != 'S' && shop != 's' && shop != 'E' && shop != 'e');
+        }while(shop != 'B' && shop != 'b' && shop != 'S' && shop != 's' && shop != 'X' && shop != 'x');
 
 
         // BUY C-COINS //
@@ -126,45 +182,41 @@ do{
             scanf("%f", &coinsAmount);
                 coinsCheckout = coinsAmount * coinsValue;
 
-                if(coinsCheckout > wallet){
-                    printf("\nsorry, you can't afford this amount of C-Coins.");
-                    printf("\nGo back into 'Home' and check your wallet!");
-                    coinsValue = coinsValue + 0.005 * coinsCheckout;
-                }
+            if(coinsCheckout > wallet){
+                printf("\nsorry, you can't afford this amount of C-Coins.");
+                printf("\nGo back into 'Home' and check your wallet!");
+                coinsValue = coinsValue - (0.0005 * coinsCheckout);
+            }
 
-                if(coinsCheckout <= wallet){
-                    coins = coins + coinsAmount;
-                    wallet = wallet - coinsCheckout;
-                    printf("\nTransaction complete. C-Coins redeemed!");
-                    coinsValue = coinsValue + 0.005 * coinsCheckout;
-                }
-
+            if(coinsCheckout <= wallet){
+                coins = coins + coinsAmount;
+                wallet = wallet - coinsCheckout;
+                printf("\nTransaction complete. C-Coins redeemed!");
+                coinsValue = coinsValue + (0.0025 * coinsCheckout);
+            }
         }
 
 
         // SELL YOUR C-COINS //
 
         if(shop == 'S' || shop == 's'){
-
             printf("\n\ntype the amount to sell: ");
             scanf("%f", &coinsAmount);
 
-                if(coinsAmount > coins){
-                    printf("\nsorry, you've not this amount of C-Coins.");
-                    printf("\nGo back into 'Home' and check your wallet!");
-                    coinsValue = coinsValue + 0.005 * coinsCheckout;
-                }
+            if(coinsAmount > coins){
+                printf("\nsorry, you've not this amount of C-Coins.");
+                printf("\nGo back into 'Home' and check your wallet!");
+                coinsValue = coinsValue - (0.0005 * coinsCheckout);
+            }
 
-                if(coinsAmount <= coins){
-                    coinsCheckout = coinsAmount * coinsValue;
-                    wallet = wallet + coinsCheckout;
-                    coins = coins - coinsAmount;
-                    printf("\nTransaction complete.");
-                    coinsValue = coinsValue + 0.005 * coinsCheckout;
-                }
-    
+            if(coinsAmount <= coins){
+                coinsCheckout = coinsAmount * coinsValue;
+                wallet = wallet + coinsCheckout;
+                coins = coins - coinsAmount;
+                printf("\nTransaction complete.");
+                coinsValue = coinsValue + (0.0010 * coinsCheckout);
+            }
         }
-
     }   
 
 
@@ -186,13 +238,17 @@ do{
     fprintf(fPointer, "%f", coinsValue);
     fclose(fPointer);
 
+    //bank balance last value.
+    fPointer = fopen("bank.txt", "w");
+    fprintf(fPointer, "%f", bankBalance);
+    fclose(fPointer);
+
 
     //stay or exit.
-        printf("\n\n\n\n");
-        printf("\n\n\n\n");
-    printf("\t[P] Go Back.");
+        printf("\n\n\n\n\n");
+    printf("\t[P] Main Menu");
         printf("\n");
-    printf("\t[ENTER] Save and Exit");
+    printf("\t[/] Save and Exit");
         exit = getch();
 
 
