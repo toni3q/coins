@@ -9,45 +9,45 @@ int main(){ system("TITLE C-Coins");
     // TAKING LAST VALUES (SAVED) //
 
     //taking your last wallet data.
-    float wallet = 1500;
+    double wallet = 1500;
     FILE * fPointer;
     fPointer = fopen("wallet.txt", "r");
-    fscanf(fPointer, "%f", &wallet);
+    fscanf(fPointer, "%lf", &wallet);
     fclose(fPointer);
-    //printf("\nwallet: %f", wallet);
+    //printf("\nwallet: %lf", wallet);
 
     //taking your last c-coins.
-    float coins = 0;
+    double coins = 0;
     fPointer = fopen("coins.txt", "r");
-    fscanf(fPointer, "%f", &coins);
+    fscanf(fPointer, "%lf", &coins);
     fclose(fPointer);
-    //printf("\ncoins: %f", coins);
+    //printf("\ncoins: %lf", coins);
 
     //taking your last c-coins value.
-    float coinsValue;
+    double coinsValue;
     fPointer = fopen("value.txt", "r");
-    fscanf(fPointer, "%f", &coinsValue);
+    fscanf(fPointer, "%lf", &coinsValue);
     fclose(fPointer);    
-    //printf("\ncoinsValue: %f", coinsValue);
+    //printf("\ncoinsValue: %lf", coinsValue);
 
     //taking your last bank details.
-    float bankBalance;
+    double bankBalance;
     fPointer = fopen("bank.txt", "r");
-    fscanf(fPointer, "%f", &bankBalance);
+    fscanf(fPointer, "%lf", &bankBalance);
     fclose(fPointer);
 
-    float transfer;
+    double transfer;
 
-    float randomValueChanger = 0;
-    float randomValueMultiplier = 0;
-        float valueAdd = 0;
+    double randomValueChanger = 0;
+    double randomValueMultiplier = 0;
+        double valueAdd = 0;
 
-    float randomValueDecrease = 0;
-    float randomValueDecreaseMultiplier = 0;
-        float valueDecrease = 0;
+    double randomValueDecrease = 0;
+    double randomValueDecreaseMultiplier = 0;
+        double valueDecrease = 0;
 
-    float coinsAmount = 0;
-    float coinsCheckout = 0;
+    double coinsAmount = 0;
+    double coinsCheckout = 0;
 
 
 //start
@@ -81,8 +81,8 @@ do{
         do{
             system("cls");
             printf("[Wallet]");
-            printf("\nAvaible: $%f", wallet);
-            printf("\nC-Coins: %f ($%f)", coins, coinsValue*coins);
+            printf("\nAvaible: $%.2f", wallet);
+            printf("\nC-Coins: %.2f ($%.2f)", coins, coinsValue*coins);
 
             printf("\n\n[B] Bank Account");
             printf("\n\n[X] (/) Deny");
@@ -93,7 +93,7 @@ do{
             do{
                 system("cls");
                 printf("[Bank Details]");
-                printf("\nBalance: $%f\n", bankBalance);
+                printf("\nBalance: $%.2f\n", bankBalance);
                 printf("\n[D] (+) Deposit");
                 printf("\n[W] (-) Withdraw");
                 printf("\n\n[X] (/) Deny");
@@ -102,12 +102,12 @@ do{
 
             if(atm == 'D' || atm == 'd'){
                 printf("\n\nDeposit Amount: $");
-                scanf("%f", &transfer);
+                scanf("%lf", &transfer);
 
                 // TAXES //
-                float taxes;
+                double taxes;
                 taxes = transfer * 0.0025;
-                printf("Taxes: $%f", taxes);
+                printf("Taxes: $%.2f", taxes);
 
                 wallet = wallet - transfer;
                 bankBalance = bankBalance + transfer;
@@ -116,12 +116,12 @@ do{
 
             if(atm == 'W' || atm == 'w'){
                 printf("\n\nWithdraw Amount: $");
-                scanf("%f", &transfer);
+                scanf("%lf", &transfer);
 
                 // TAXES //
-                float taxes;
+                double taxes;
                 taxes = transfer * 0.0025;
-                printf("Taxes: $%f", taxes);
+                printf("Taxes: $%lf", taxes);
 
                 wallet = wallet + transfer;
                 bankBalance = bankBalance - transfer;
@@ -166,8 +166,8 @@ do{
             //printing current C-Coins value.
             sleep(1);
             printf("\n\n[R] Refresh");
-            printf("\nC-Coins Live Value: %f$", coinsValue);
-            printf("\nLast Value Change: %f$", valueAdd-valueDecrease);
+            printf("\nC-Coins Live Value: %.2f$", coinsValue);
+            printf("\nLast Value Change: %.2f$", valueAdd-valueDecrease);
 
             printf("\n\n[X] (/) Deny");
             shop = getch();
@@ -179,7 +179,7 @@ do{
 
         if(shop == 'B' || shop == 'b'){
             printf("\n\ntype the amount to buy: ");
-            scanf("%f", &coinsAmount);
+            scanf("%lf", &coinsAmount);
                 coinsCheckout = coinsAmount * coinsValue;
 
             if(coinsCheckout > wallet){
@@ -201,7 +201,7 @@ do{
 
         if(shop == 'S' || shop == 's'){
             printf("\n\ntype the amount to sell: ");
-            scanf("%f", &coinsAmount);
+            scanf("%lf", &coinsAmount);
 
             if(coinsAmount > coins){
                 printf("\nsorry, you've not this amount of C-Coins.");
@@ -225,22 +225,22 @@ do{
     //wallet last value.
     FILE * fPointer;
     fPointer = fopen("wallet.txt", "w");
-    fprintf(fPointer, "%f", wallet);
+    fprintf(fPointer, "%lf", wallet);
     fclose(fPointer);
 
     //coins last amount you had into your wallet.
     fPointer = fopen("coins.txt", "w");
-    fprintf(fPointer, "%f", coins);
+    fprintf(fPointer, "%lf", coins);
     fclose(fPointer);
 
     //coins last value.
     fPointer = fopen("value.txt", "w");
-    fprintf(fPointer, "%f", coinsValue);
+    fprintf(fPointer, "%lf", coinsValue);
     fclose(fPointer);
 
     //bank balance last value.
     fPointer = fopen("bank.txt", "w");
-    fprintf(fPointer, "%f", bankBalance);
+    fprintf(fPointer, "%lf", bankBalance);
     fclose(fPointer);
 
 
@@ -281,5 +281,5 @@ return 0;
     //printing current C-Coins value.
     sleep(1);
     printf("\n\n[R] Refresh");
-    printf("\nC-Coins Live Value: %f$", coinsValue);
+    printf("\nC-Coins Live Value: %lf$", coinsValue);
 */
