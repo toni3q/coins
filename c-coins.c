@@ -6,32 +6,23 @@
 int main(){ system("TITLE C-Coins");
             system("color 9");
 
-    // TAKING LAST VALUES (SAVED) //
-
-    //taking your last wallet data.
     double wallet = 1500.00;
     FILE * fPointer;
     fPointer = fopen("wallet.txt", "r");
     fscanf(fPointer, "%lf", &wallet);
     fclose(fPointer);
-    //printf("\nwallet: %lf", wallet);
 
-    //taking your last c-coins.
     double coins = 0.00;
     fPointer = fopen("coins.txt", "r");
     fscanf(fPointer, "%lf", &coins);
     fclose(fPointer);
-    //printf("\ncoins: %lf", coins);
 
-    //taking your last c-coins value.
     double coinsValue = 100.00;
     fPointer = fopen("value.txt", "r");
     fscanf(fPointer, "%lf", &coinsValue);
     fclose(fPointer);    
-    //printf("\ncoinsValue: %lf", coinsValue);
 
-    //taking your last bank details.
-    double bankBalance = 500.00;
+    double bankBalance = 1000.00;
     fPointer = fopen("bank.txt", "r");
     fscanf(fPointer, "%lf", &bankBalance);
     fclose(fPointer);
@@ -57,27 +48,19 @@ int main(){ system("TITLE C-Coins");
 char option, exit, shop, bank, bankAction;
 do{
     do{
-
-        // MAIN MENU //
-
         system("cls");
         printf("[E] Banking System");
         printf("\n[S] C-Coins Market");
 
-        //printing some informations that the user can read and use during the game!
         printf("\n\nWelcome to C-Coins platform.\nBuy or Sell C-Coins easely and quickly!\n");
         printf("\n- The value of the C-Coins changes by the supply and demand.");
         printf("\n- Each transaction between you and the platform is charged with taxes.");
         printf("\n- You can basically do it from every country in the planet.");
         printf("\n\n\n\n[O] Options");
 
-        //user choise.
         option = getch();
 
     }while(option != 'E' && option != 'e' && option != 'S' && option !='s' && option !='O' && option !='o');
-
-
-    // BANKING SYSTEM //
 
     if(option == 'E' || option == 'e'){
         do{
@@ -113,7 +96,6 @@ do{
                 }
 
                 if(transfer <= wallet){
-                    // TAXES //
                     double taxes;
                     taxes = transfer * 0.0025;
                     printf("\n\nTransaction complete: \n[+] $%.2f\n[-] $%.2f\n", transfer - taxes, taxes);
@@ -156,9 +138,6 @@ do{
         }
     }
 
-
-    // C-COINS MARKET //
-
     if(option == 'S' || option == 's'){
         coinsAmount = 0;
         coinsCheckout = 0;
@@ -170,24 +149,15 @@ do{
             printf("\n[B] (+) Buy");
             printf("\n[S] (-) Sell");
 
-            //C-Coins value system.
             srand(time(0));
-            //we can only get a number from 1 to 3 as changer multiplier.
             randomValueMultiplier = (rand() % 3) + 1;
-            //we can get a number from 1 to 10 as changer to multiply.
             randomValueChanger = (rand() % 10) + 1;      
-            //final step to get a pseudo-random variation on the coin value.
             valueAdd = randomValueMultiplier * randomValueChanger;
-            //we can only get a number from 1 to 3 as changer multiplier.
             randomValueDecreaseMultiplier = (rand() % 3) + 1;
-            //we can get a number from 1 to 10 as changer to multiply.
             randomValueDecrease = (rand() % 10) + 1;
-            //final step to get a pseudo-random variation on the coin value.
             valueDecrease = randomValueDecreaseMultiplier * randomValueDecrease;
-            //adding the value we got previously.
             coinsValue = coinsValue + (valueAdd * 1.025) - (valueDecrease * 0.875);
 
-            //printing current C-Coins value.
             sleep(1);
             printf("\n\n[R] Refresh");
             printf("\nC-Coins Live Value: $%.2f", coinsValue);
@@ -201,9 +171,6 @@ do{
 
         }while(shop != 'B' && shop != 'b' && shop != 'S' && shop != 's' && shop != 'O' && shop != 'o');
 
-
-        // BUY C-COINS //
-
         if(shop == 'B' || shop == 'b'){
             system("cls");
             printf("[Buying C-Coins]\n");
@@ -214,19 +181,19 @@ do{
             if(coinsCheckout > wallet){
                 printf("\nsorry, you can't afford this amount of C-Coins.");
                 printf("\nGo back into 'Home' and check your wallet!");
-                coinsValue = coinsValue - (0.0005 * coinsCheckout);
+                coinsValue = coinsValue + (0.0010 * coinsCheckout);
             }
 
             if(coinsCheckout <= wallet){
                 coins = coins + coinsAmount;
                 wallet = wallet - coinsCheckout;
-                printf("\nTransaction complete. C-Coins redeemed!");
-                coinsValue = coinsValue + (0.0025 * coinsCheckout);
+                printf("\n\nTransaction complete: \n[+] %.2f coins\n[-] $%.2f\n", coinsAmount, coinsCheckout);                
+                coinsValue = coinsValue + (0.0010 * coinsCheckout);
+
+                printf("\nC-Coins: %.2f\n", coins);
+                printf(" Wallet: $%.2f\n", wallet);   
             }
         }
-
-
-        // SELL YOUR C-COINS //
 
         if(shop == 'S' || shop == 's'){
             system("cls");
@@ -237,48 +204,43 @@ do{
             if(coinsAmount > coins){
                 printf("\nsorry, you've not this amount of C-Coins.");
                 printf("\nGo back into 'Home' and check your wallet!");
-                coinsValue = coinsValue - (0.0005 * coinsCheckout);
+                coinsValue = coinsValue - (0.0010 * coinsCheckout);             
             }
 
             if(coinsAmount <= coins){
                 coinsCheckout = coinsAmount * coinsValue;
                 wallet = wallet + coinsCheckout;
                 coins = coins - coinsAmount;
-                printf("\nTransaction complete.");
-                coinsValue = coinsValue + (0.0010 * coinsCheckout);
+                printf("\n\nTransaction complete: \n[-] %.2f coins\n[+] $%.2f\n", coinsAmount, coinsCheckout);
+                coinsValue = coinsValue - (0.0010 * coinsCheckout);
+
+                printf("\nC-Coins: %.2f\n", coins);
+                printf(" Wallet: $%.2f\n", wallet);
             }
         }
     }   
 
-    // LAST SAVE //
-
-    //wallet last value.
     FILE * fPointer;
     fPointer = fopen("wallet.txt", "w");
     fprintf(fPointer, "%lf", wallet);
     fclose(fPointer);
 
-    //coins last amount you had into your wallet.
     fPointer = fopen("coins.txt", "w");
     fprintf(fPointer, "%lf", coins);
     fclose(fPointer);
 
-    //coins last value.
     fPointer = fopen("value.txt", "w");
     fprintf(fPointer, "%lf", coinsValue);
     fclose(fPointer);
 
-    //bank balance last value.
     fPointer = fopen("bank.txt", "w");
     fprintf(fPointer, "%lf", bankBalance);
     fclose(fPointer);
 
-    //taxes you paid.
     fPointer = fopen("matrix.txt", "w");
     fprintf(fPointer, "%lf", matrix);
     fclose(fPointer);
 
-    //stay or exit.
         printf("\n\n\n\n\n");
     printf("\t\t[M] Main Menu'");
         printf("\n");
@@ -293,27 +255,3 @@ printf("\n\nYou're leaving!\nSee you next time!");
 getch();
 return 0;
 }
-
-/*
-    //C-Coins value system.
-    srand(time(0));
-    //we can only get a number from 1 to 3 as changer multiplier.
-    randomValueMultiplier = (rand() % 3) + 1;
-    //we can get a number from 1 to 10 as changer to multiply.
-    randomValueChanger = (rand() % 10) + 1;      
-    //final step to get a pseudo-random variation on the coin value.
-    valueAdd = randomValueMultiplier * randomValueChanger;
-    //we can only get a number from 1 to 3 as changer multiplier.
-    randomValueDecreaseMultiplier = (rand() % 3) + 1;
-    //we can get a number from 1 to 10 as changer to multiply.
-    randomValueDecrease = (rand() % 10) + 1;
-    //final step to get a pseudo-random variation on the coin value.
-    valueDecrease = randomValueDecreaseMultiplier * randomValueDecrease;
-    //adding the value we got previously.
-    coinsValue = coinsValue + (valueAdd * 1.020) - (valueDecrease * 0.980);
-
-    //printing current C-Coins value.
-    sleep(1);
-    printf("\n\n[R] Refresh");
-    printf("\nC-Coins Live Value: %lf$", coinsValue);
-*/
