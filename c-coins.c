@@ -7,29 +7,29 @@ int main(){ system("TITLE C-Coins");
 
     double wallet = 1500.00;
     FILE * fPointer;
-    fPointer = fopen("wallet.txt", "r");
+    fPointer = fopen("data\\wallet.log", "r");
     fscanf(fPointer, "%lf", &wallet);
     fclose(fPointer);
 
     double coins = 0.00;
-    fPointer = fopen("coins.txt", "r");
+    fPointer = fopen("data\\coins.log", "r");
     fscanf(fPointer, "%lf", &coins);
     fclose(fPointer);
 
     double coinsValue = 100.00;
-    fPointer = fopen("value.txt", "r");
+    fPointer = fopen("data\\value.log", "r");
     fscanf(fPointer, "%lf", &coinsValue);
     fclose(fPointer);    
 
     double bankBalance = 1000.00;
-    fPointer = fopen("bank.txt", "r");
+    fPointer = fopen("data\\bank.log", "r");
     fscanf(fPointer, "%lf", &bankBalance);
     fclose(fPointer);
 
     double transfer = 0.00;
 
     double matrix = 0.00;
-    fPointer = fopen("matrix.txt", "r");
+    fPointer = fopen("data\\matrix.log", "r");
     fscanf(fPointer, "%lf", &matrix);
     fclose(fPointer);
 
@@ -45,7 +45,7 @@ int main(){ system("TITLE C-Coins");
     double coinsCheckout = 0;
 
     double LastPurchase = 0;
-    fPointer = fopen("purchase.txt", "r");
+    fPointer = fopen("data\\purchase.log", "r");
     fscanf(fPointer, "%lf", &LastPurchase);
     fclose(fPointer);
 
@@ -228,27 +228,27 @@ do{
     }   
 
     FILE * fPointer;
-    fPointer = fopen("wallet.txt", "w");
+    fPointer = fopen("data\\wallet.log", "w");
     fprintf(fPointer, "%lf", wallet);
     fclose(fPointer);
 
-    fPointer = fopen("coins.txt", "w");
+    fPointer = fopen("data\\coins.log", "w");
     fprintf(fPointer, "%lf", coins);
     fclose(fPointer);
 
-    fPointer = fopen("value.txt", "w");
+    fPointer = fopen("data\\value.log", "w");
     fprintf(fPointer, "%lf", coinsValue);
     fclose(fPointer);
 
-    fPointer = fopen("bank.txt", "w");
+    fPointer = fopen("data\\bank.log", "w");
     fprintf(fPointer, "%lf", bankBalance);
     fclose(fPointer);
 
-    fPointer = fopen("matrix.txt", "w");
+    fPointer = fopen("data\\matrix.log", "w");
     fprintf(fPointer, "%lf", matrix);
     fclose(fPointer);
 
-    fPointer = fopen("purchase.txt", "w");
+    fPointer = fopen("data\\purchase.log", "w");
     fprintf(fPointer, "%lf", LastPurchase);
     fclose(fPointer);
 
