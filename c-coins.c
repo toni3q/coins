@@ -4,7 +4,6 @@
 #include<time.h>
 #include<stdbool.h>
 int main(){ system("TITLE C-Coins");
-            system("color 9");
 
     double wallet = 1500.00;
     FILE * fPointer;
@@ -45,45 +44,39 @@ int main(){ system("TITLE C-Coins");
     double coinsAmount = 0;
     double coinsCheckout = 0;
 
-char option, exit, shop, bank, bankAction;
+    double LastPurchase = 0;
+    fPointer = fopen("purchase.txt", "r");
+    fscanf(fPointer, "%lf", &LastPurchase);
+    fclose(fPointer);
+
+char option, exit, shop, bankAction;
 do{
     do{
         system("cls");
-        printf("[E] Banking System");
+        printf("[W] Wallet");
         printf("\n[S] C-Coins Market");
 
         printf("\n\nWelcome to C-Coins platform.\nBuy or Sell C-Coins easely and quickly!\n");
         printf("\n- The value of the C-Coins changes by the supply and demand.");
         printf("\n- Each transaction between you and the platform is charged with taxes.");
         printf("\n- You can basically do it from every country in the planet.");
-        printf("\n\n\n\n[O] Options");
 
+        printf("\n\n\n\n\t[O] Options");
         option = getch();
 
-    }while(option != 'E' && option != 'e' && option != 'S' && option !='s' && option !='O' && option !='o');
+    }while(option != 'W' && option != 'w' && option != 'S' && option !='s' && option !='O' && option !='o');
 
-    if(option == 'E' || option == 'e'){
-        do{
+    if(option == 'W' || option == 'w'){
             system("cls");
             printf("[Wallet]");
             printf("\nAvaible: $%.2f", wallet);
+            printf("\nAccount: $%.2f\n", bankBalance);
+            printf("\n[D] (+) Deposit");
+            printf("\n[W] (-) Withdraw\n");
+            printf("\n\n[Coins]");
             printf("\nC-Coins: %.2f ($%.2f)", coins, coinsValue*coins);
-
-            printf("\n\n[B] Bank Account");
-            printf("\n\n\n\n[O] Options");
-            bank = getch();
-        }while(bank != 'B' && bank != 'b' && bank != 'O' && bank != 'o');
-
-        if(bank == 'B' || bank == 'b'){
-            do{
-                system("cls");
-                printf("[Bank Details]");
-                printf("\nBalance: $%.2f\n", bankBalance);
-                printf("\n[D] (+) Deposit");
-                printf("\n[W] (-) Withdraw");
-                printf("\n\n\n\n[O] Options");
-                bankAction = getch();
-            }while(bankAction != 'D' && bankAction != 'd' && bankAction != 'W' && bankAction != 'w' && bankAction != 'O' && bankAction != 'o');
+            printf("\n\n\n\n\t[O] Options");
+            bankAction = getch();
 
             if(bankAction == 'D' || bankAction == 'd'){
                 system("cls");
@@ -135,7 +128,7 @@ do{
                     
                 }
             }
-        }
+        
     }
 
     if(option == 'S' || option == 's'){
@@ -144,8 +137,10 @@ do{
 
         do{
             system("cls");
-            system("cls");
-            printf("[Shop]");
+            printf("[Coins]");
+            printf("\nC-Coins: %.2f ($%.2f)", coins, coinsValue*coins);
+
+            printf("\n\n[Shop]");
             printf("\n[B] (+) Buy");
             printf("\n[S] (-) Sell");
 
@@ -160,13 +155,24 @@ do{
 
             sleep(1);
             printf("\n\n[R] Refresh");
-            printf("\nC-Coins Live Value: $%.2f", coinsValue);
             printf("\nLast Value Change: $%.2f", valueAdd-valueDecrease);
-                if((valueAdd-valueDecrease) < 0){printf(" (<-)");}
-                if((valueAdd-valueDecrease) > 0){printf(" (->)");}
-                if((valueAdd-valueDecrease) == 0){printf(" (--)");}
+            printf("\nC-Coins Live Value: $%.2f", coinsValue);
+                if((valueAdd-valueDecrease) < 0){printf(" ");}
+                if((valueAdd-valueDecrease) > 0){printf(" ");}
+                if((valueAdd-valueDecrease) == 0){printf(" ");}
+            printf("\n\nLast Coin Purchase: $%.2f", LastPurchase);
 
-            printf("\n\n\n\n[O] Options");
+            if(LastPurchase > coinsValue){
+                printf("\nYou're losing money.");
+                printf("\nLost: -$%.2f", LastPurchase - coinsValue);
+            }
+
+            if(LastPurchase < coinsValue){
+                printf("\nYou're earning money.");
+                printf("\nEarn: $%.2f", coinsValue - LastPurchase);
+            }
+
+            printf("\n\n\n\n\t[O] Options");
             shop = getch();
 
         }while(shop != 'B' && shop != 'b' && shop != 'S' && shop != 's' && shop != 'O' && shop != 'o');
@@ -187,6 +193,7 @@ do{
             if(coinsCheckout <= wallet){
                 coins = coins + coinsAmount;
                 wallet = wallet - coinsCheckout;
+                LastPurchase = coinsCheckout / coinsAmount;
                 printf("\n\nTransaction complete: \n[+] %.2f coins\n[-] $%.2f\n", coinsAmount, coinsCheckout);                
                 coinsValue = coinsValue + (0.0010 * coinsCheckout);
 
@@ -241,10 +248,14 @@ do{
     fprintf(fPointer, "%lf", matrix);
     fclose(fPointer);
 
-        printf("\n\n\n\n\n");
-    printf("\t\t[M] Main Menu'");
+    fPointer = fopen("purchase.txt", "w");
+    fprintf(fPointer, "%lf", LastPurchase);
+    fclose(fPointer);
+
+        printf("\n\n\n");
+    printf("\t[M] Main Menu'");
         printf("\n");
-    printf("\t\t[/] Save and Exit");
+    printf("\t[/] Save and Exit");
         exit = getch();
 
 
