@@ -53,7 +53,7 @@ char option, exit, shop, bankAction;
 do{
     do{
         system("cls");
-        printf("[W] Wallet");
+        printf("[W] Finance Management");
         printf("\n[S] C-Coins Market");
 
         printf("\n\nWelcome to C-Coins platform.\nBuy or Sell C-Coins easely and quickly!\n");
@@ -68,13 +68,18 @@ do{
 
     if(option == 'W' || option == 'w'){
             system("cls");
-            printf("[Wallet]");
-            printf("\nAvaible: $%.2f", wallet);
-            printf("\nAccount: $%.2f\n", bankBalance);
-            printf("\n[D] (+) Deposit");
-            printf("\n[W] (-) Withdraw\n");
+            printf("[Finance Management]");
+            printf("\nCash: $%.2f", wallet);
+            printf("\nBank: $%.2f\n", bankBalance);
+
+            printf("\n[D] Deposit");
+            printf("\n[W] Withdraw\n");
+
+
             printf("\n\n[Coins]");
-            printf("\nC-Coins: %.2f ($%.2f)", coins, coinsValue*coins);
+            printf("\nC-Coins: %.2f (Worth: $%.2f)", coins, coinsValue*coins);
+
+
             printf("\n\n\n\n\t[O] Options");
             bankAction = getch();
 
@@ -141,8 +146,8 @@ do{
             printf("\nC-Coins: %.2f ($%.2f)", coins, coinsValue*coins);
 
             printf("\n\n[Shop]");
-            printf("\n[B] (+) Buy");
-            printf("\n[S] (-) Sell");
+            printf("\n[B] Buy");
+            printf("\n[S] Sell");
 
             srand(time(0));
             randomValueMultiplier = (rand() % 3) + 1;
@@ -155,12 +160,12 @@ do{
 
             sleep(1);
             printf("\n\n[R] Refresh");
+            printf("\nC-Coin Live Value: $%.2f", coinsValue);
             printf("\nLast Value Change: $%.2f", valueAdd-valueDecrease);
-            printf("\nC-Coins Live Value: $%.2f", coinsValue);
                 if((valueAdd-valueDecrease) < 0){printf(" ");}
                 if((valueAdd-valueDecrease) > 0){printf(" ");}
                 if((valueAdd-valueDecrease) == 0){printf(" ");}
-            printf("\n\nLast Coin Purchase: $%.2f", LastPurchase);
+            printf("\n\nLast Coins Purchase: $%.2f", LastPurchase);
 
             if(LastPurchase > coinsValue){
                 printf("\nYou're losing money.");
@@ -179,8 +184,10 @@ do{
 
         if(shop == 'B' || shop == 'b'){
             system("cls");
-            printf("[Buying C-Coins]\n");
-            printf("type the amount to buy: ");
+            printf("[Buying C-Coins]");
+            printf("\nCash: %.2f", wallet);
+            printf("\nCoin Value: %.2f", coinsValue);
+            printf("\n\ntype the amount to buy: ");
             scanf("%lf", &coinsAmount);
                 coinsCheckout = coinsAmount * coinsValue;
 
@@ -204,8 +211,10 @@ do{
 
         if(shop == 'S' || shop == 's'){
             system("cls");
-            printf("[Selling C-Coins]\n");
-            printf("type the amount to sell: ");
+            printf("[Selling C-Coins]");
+            printf("\nYour C-Coins: %.2f", coins);
+            printf("\nC-Coin Value: $%.2f", coinsValue);
+            printf("\n\ntype the amount to sell: ");
             scanf("%lf", &coinsAmount);
 
             if(coinsAmount > coins){
